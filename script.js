@@ -82,6 +82,6 @@ function processFormData(event) {
         nameError.textContent = "";
         nameInput.style.borderColor = "green";          
             
-            storeFormData();
+        storeFormData();
         }, 2000);
 }

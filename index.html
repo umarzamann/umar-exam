@@ -18,23 +18,23 @@
         <form id="form" action="#" method="post" onsubmit="return processFormData(event)">
             <div class="form-type">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" placeholder="Full Name.." required>
                 <div id="name-error" class="error-msg"></div>
             </div>
             
             <div class="form-type">
-                <label for="email" >Email</label>
-                <input type="email" id="email" name="email" required>
+                <label for="email" >Email:</label>
+                <input type="email" id="email" name="email" placeholder="email@address.com"  required>
             </div>
 
             <div class="form-type">
-                <label for="date" >Date of Birth</label>
+                <label for="date" >Date of Birth:</label>
                 <input type="date" id="date" name="date" required>
             </div>
 
             <div class="form-type">
-                <label for="phone" >Contact</label>
-                <input type="tel" id="phone" name="phone" required>
+                <label for="phone" >Contact:</label>
+                <input type="tel" id="phone" name="phone" placeholder="03001234567" required>
                 <div id="phone-error" class="error-msg"></div>
             </div>
 
@@ -48,7 +48,7 @@
             
             <div class="form-type">
                 <label for="message">Your Feedback:</label>
-                <textarea id="message" name="message" required></textarea>
+                <textarea id="message" name="message" placeholder="type your feedback here..."  required></textarea>
             </div>
             
             <button type="submit" >Submit Feedback</button>
