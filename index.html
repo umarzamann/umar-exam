@@ -94,6 +94,38 @@ function processFormData(event) {
     if (!form.checkValidity()) {
         return;
     }
+
+     // --- SERVER-SIDE LIKE VALIDATIONS ---
+     const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const phone = form.phone.value.trim();
+    const message = form.message.value.trim();
+
+    // Simulate backend checks
+    if (name.length < 3) {
+        alert("Name must be at least 3 characters long.");
+        return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        alert("Invalid email format.");
+        return;
+    }
+
+    const phonePattern = /^[0-9]{10,13}$/;
+    if (!phonePattern.test(phone)) {
+        alert("Phone must be 10 to 13 digits.");
+        return;
+    }
+
+    if (message.split(' ').length < 5) {
+        alert("Feedback message must be at least 5 words.");
+        return;
+    }
+    // --------------------------------------
+
+
     // fake loading spinner w/ 2sec wait time
         submittedData.style.display = "none";
         document.getElementById('loading').style.display = "block";
