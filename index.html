@@ -7,9 +7,14 @@
     <title>Umar Z.</title>    
 </head>
 <body>
+
+     <!-- fake loading -->
+     <div id="loading">
+        <div class="spinner"></div>
+    </div>
+
     <div class="container">
         <h1>Feedback Form</h1>
-        
         <form id="form" action="#" method="post" onsubmit="return processFormData(event)">
             <div class="form-type">
                 <label for="name">Name:</label>
@@ -48,14 +53,7 @@
             
             <button type="submit" >Submit Feedback</button>
         </form>
-         <!-- fake loading -->
-        <div id="loading" style="display: none;">
-            <div class="dot-spinner">
-              <div></div><div></div><div></div>
-            </div>
-            <p>Loading...</p>
-        </div>
-
+        
         <!-- submitted data -->
         <div id="submitted-data"></div>
     </div>
@@ -138,15 +136,14 @@ function processFormData(event) {
 
     // fake loading spinner w/ 2sec wait time
         submittedData.style.display = "none";
-        document.getElementById('loading').style.display = "block";
-
+        loading.style.display = "flex";
         
         setTimeout(() => {
-            document.getElementById('loading').style.display = "none";
-            submittedData.style.display = "block";
-            
-            nameError.textContent = "";
-            nameInput.style.borderColor = "green";         
+        loading.style.display = "none"; 
+        submittedData.style.display = "block";
+
+        nameError.textContent = "";
+        nameInput.style.borderColor = "green";          
             
             storeFormData();
         }, 2000);
