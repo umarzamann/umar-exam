@@ -14,6 +14,7 @@
             <div class="form-type">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
+                <div id="name-error" class="error-msg"></div>
             </div>
             
             <div class="form-type">
@@ -29,6 +30,7 @@
             <div class="form-type">
                 <label for="phone" >Contact</label>
                 <input type="tel" id="phone" name="phone" required>
+                <div id="phone-error" class="error-msg"></div>
             </div>
 
             <div class="form-type">
@@ -81,7 +83,7 @@ function storeFormData() {
             <h2>Submitted Feedback:</h2>
             <p><strong>Name:</strong> ${user.name}</p>
             <p><strong>Email:</strong> ${user.email}</p>
-            <p><strong>Email:</strong> ${user.date}</p>
+            <p><strong>Date of Birth:</strong> ${user.date}</p>
             <p><strong>Phone:</strong> ${user.phone}</p>
             <p><strong>Satisfaction Level:</strong> ${user.satisfaction}</p>
             <p><strong>Message:</strong> ${user.message}</p>`;
@@ -96,20 +98,29 @@ function processFormData(event) {
     }
 
      // --- SERVER-SIDE LIKE VALIDATIONS ---
-     const name = form.name.value.trim();
+    const name = form.name.value.trim();
     const email = form.email.value.trim();
     const phone = form.phone.value.trim();
     const message = form.message.value.trim();
 
-    // Simulate backend checks
+    // the input elements
+    const nameInput = form.name;   
+    // the error divs
+    const nameError = document.getElementById('name-error'); 
+    
+
+
     if (name.length < 3) {
-        alert("Name must be at least 3 characters long.");
+        // alert("Name must be at least 3 characters long.");
+       
+        nameError.textContent = "Name must be at least 3 characters long.";
+        nameInput.style.borderColor = "red";
         return;
     }
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
-        alert("Invalid email format.");
+        alert('wrong email patterm');
         return;
     }
 
@@ -123,7 +134,6 @@ function processFormData(event) {
         alert("Feedback message must be at least 5 words.");
         return;
     }
-    // --------------------------------------
 
 
     // fake loading spinner w/ 2sec wait time
@@ -134,6 +144,10 @@ function processFormData(event) {
         setTimeout(() => {
             document.getElementById('loading').style.display = "none";
             submittedData.style.display = "block";
+            
+            nameError.textContent = "";
+            nameInput.style.borderColor = "green";         
+            
             storeFormData();
         }, 2000);
 }
