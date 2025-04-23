@@ -2,16 +2,14 @@
 
 body {
     background-color: #f5f5f5;
-    margin-top: 2em;
     font-family:'Roboto';
     letter-spacing: 2px;
   }
     
   .container {
     background: white;
-    padding: 20px;
+    padding: 25px;
     max-width: 500px;
-   
     margin: auto;
     border-radius: 10px;
     box-shadow: 2px 4px 15px rgba(0,0,0,0.7);
@@ -106,4 +104,11 @@ body {
     justify-content: center;
     align-items: center;
   }
+
+  @media (max-width: 600px) {
+    input[type="date"] {
+        width: 100%;
+        min-width: 0;
+    }
+}
   
