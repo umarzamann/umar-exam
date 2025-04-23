@@ -3,11 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Umar Z.</title>
+    <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
-    <h1>
-        Umar zaman
-    </h1>
+    <div class="container">
+        <h1>Feedback Form</h1>
+        
+        <form id="form" action="#" method="post" onsubmit="return processFormData(event)">
+            <div class="form-type">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-type">
+                <label for="email" >Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-type">
+                <label for="date" >Date of Birth</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+
+            <div class="form-type">
+                <label for="phone" >Contact</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <div class="form-type">
+                <label>Satisfaction Level:</label>
+                <input type="range" id="satisfaction" name="satisfaction" 
+                       value="0"       
+                       min="1" max="100" 
+                       required>
+            </div>
+            
+            <div class="form-type">
+                <label for="message">Your Feedback:</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            
+            <button type="submit" >Submit Feedback</button>
+        </form>
+        <!-- submitted data -->
+        <div id="submitted-data"></div>
+    </div>
+         
 </body>
+
+<script>
+    const form = document.getElementById('form');
+    const submittedData = document.getElementById('submitted-data');
+
+function storeFormData() {
+    const user = {
+        name: form.name.value,
+        email: form.email.value,
+        date: form.date.value,
+        phone: form.phone.value,
+        satisfaction: form.satisfaction.value,
+        message: form.message.value
+    };
+    
+   // console.log(user);
+
+    // Displaying the submitted data
+    submittedData.innerHTML = `
+            <h2>Submitted Feedback:</h2>
+            <p><strong>Name:</strong> ${user.name}</p>
+            <p><strong>Email:</strong> ${user.email}</p>
+            <p><strong>Email:</strong> ${user.date}</p>
+            <p><strong>Phone:</strong> ${user.phone}</p>
+            <p><strong>Satisfaction Level:</strong> ${user.satisfaction}</p>
+            <p><strong>Message:</strong> ${user.message}</p>`;
+}  
+
+function processFormData(event) {
+    event.preventDefault();
+
+    // form validity
+    if (!form.checkValidity()) {
+        return;
+    }
+
+    // If valid, store the form data
+    storeFormData();
+}
+
+</script>
+
+
 </html>
