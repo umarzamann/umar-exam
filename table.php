@@ -1,9 +1,5 @@
 <?php
-include 'db.php';
-
-$sql = "select * from user_feedback";
-$res = mysqli_query( $con, $sql);
-
+$msg = isset($_GET['msg']) ? $_GET['msg'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,57 +7,113 @@ $res = mysqli_query( $con, $sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umar Z.</title>
+    <title>Feedback Table – Umar Z.</title>
     <link rel="stylesheet" href="style.css">
     <style>
         table {
-            border: 1px solid black;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #333;
+            text-align: left;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #444;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
         }
     </style>
 </head>
 
 <body>
-<?php
-            if (isset($_GET['msg'])) {
-                echo $_GET['msg'];
-            }
-            ?>
-        <table>
-            <thead>
+<a href="index.php" style="display: inline-block; margin-bottom: 15px; background-color: #007bff; color: white; padding: 10px 16px; text-decoration: none; border-radius: 4px;">
+        + Create Record
+    </a>
+
+    <h1>User Feedback List</h1>
+
+    <div class="toast" id="toast"><?= htmlspecialchars($msg) ?></div>
+
+    <table>
+        <thead>
+            <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>date</th>
-                <th>phone</th>
-                <th>satisfaction</th>
-                <th>message</th>
+                <th>Date of Birth</th>
+                <th>Phone</th>
+                <th>Satisfaction</th>
+                <th>Message</th>
                 <th>Action</th>
-            </thead>
-            <tbody>
-                <?php
-                while ($row = mysqli_fetch_assoc($res)) { ?>
-                  <tr>
-                  <td><?= $row['id']; ?></td>
-                    <td><?= $row['name']; ?></td>
-                    <td><?= $row['email']; ?></td>
-                    <td><?= $row['date_of_birth']; ?></td>
-                    <td><?= $row['contact']; ?></td>
-                    <td><?= $row['satisfaction_level']; ?></td>
-                    <td><?= $row['feedback'] ?></td>
-                    <td>
-                        <a href="index.php?id=<?= $row['id']; ?>">Edit</a>
-                        |
-                        <a href="delete.php?id=<?= $row['id']; ?>">Delete</a>
-                    </td>
-                  </tr>
-                <?php }
-                ?>
-            </tbody>
-        </table>
-        
-   
+            </tr>
+        </thead>
+        <tbody id="feedback-table-body">
+            <!-- Data will be loaded here -->
+        </tbody>
+    </table>
 
+    <script>
+        function loadTable() {
+            fetch('save.php?action=fetch')
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('feedback-table-body').innerHTML = data.my_data;
+                });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            if (msg.trim() !== '') {
+                toast.textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        function deleteRecord(id) {
+            if (confirm("Are you sure you want to delete this feedback?")) {
+                fetch('save.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `action=delete&id=${id}`
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        loadTable();
+                        showToast(data.msg);
+                    } else {
+                        showToast(data.msg || "Deletion failed");
+                    }
+                });
+            }
+        }
+
+       
+        loadTable();
+
+       
+        showToast("<?= htmlspecialchars($msg) ?>");
+    </script>
 </body>
-
 
 </html>
